@@ -2,16 +2,15 @@ require_relative './base/agent'
 
 # Producer Agent
 class Producer < Agent
-  attr_accessor :k, :a, :b, :c
+  attr_accessor :eq_k, :eq_a, :eq_b
 
-  def initialize(k, a, b, c)
-    @k = k
-    @a = a
-    @b = b
-    @c = c
+  def initialize(eq_k, eq_a, eq_b)
+    @eq_k = eq_k
+    @eq_a = eq_a
+    @eq_b = eq_b
   end
 
   def generate_plan(x, y)
-    @k * x ^ @a * y ^ @b
+    @eq_k * x ^ @eq_a * y ^ @eq_b
   end
 end
