@@ -10,7 +10,11 @@ class Producer < Agent
     @eq_b = eq_b
   end
 
-  def generate_plan(x, y)
-    @eq_k * x ^ @eq_a * y ^ @eq_b
+  def cap
+    50
+  end
+
+  def generate_plan(p_1, p_2)
+    [@eq_k * p_1**@eq_a * p_2**@eq_b, cap].min
   end
 end

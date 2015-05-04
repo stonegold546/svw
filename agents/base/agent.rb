@@ -1,4 +1,4 @@
-require_relative '../lib/communicate'
+require_relative '../../lib/communicate'
 
 # Base class all agents inherit from
 class Agent

@@ -11,8 +11,8 @@ class Consumer < Agent
     @eq_d = eq_d
   end
 
-  def utility(x, y)
-    @eq_a * (@eq_b * x ^ @eq_c + (1 - @eq_b) * y ^ @eq_c) ^ (@eq_d / @eq_c)
+  def utility(p_1, p_2)
+    @eq_a * (@eq_b * p_1**@eq_c + (1 - @eq_b) * p_2**@eq_c)**(@eq_d / @eq_c)
   end
 
   def plan
