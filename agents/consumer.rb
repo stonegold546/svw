@@ -36,6 +36,13 @@ class Consumer < Agent
   def generate_plan(p_1, p_2, y_1, y_2)
     # Input: two prices and both production plans
     # Output: Array of prefered ammount for both goods
-    [g_a(p_1, @endow[0], y_1, y_2), g_a(p_2, @endow[1], y_1, y_2)]
+    @buy = [g_a(p_1, @endow[0], y_1, y_2), g_a(p_2, @endow[1], y_1, y_2)]
+  end
+
+  def announce(i)
+    header = ''
+    header = "---\n" unless i == 1
+    puts "#{header}Consumer #{i}\nConsumption Plan = "\
+    "Good 1: #{@buy[0]} | Good 2: #{@buy[1]}\n"
   end
 end

@@ -18,13 +18,18 @@ con_s = [Consumer.new([2, 0.5, 0.9, 0.5], 0.8, endow_1),
          Consumer.new([3, 0.6, 0.95, 1.6], 0.3, endow_2),
          Consumer.new([5, 0.7, 0.8, 0.7], 0.6, endow_3)]
 pro_s = [Producer.new(2, 0.7, 0.3), Producer.new(3, 0.2, 0.6)]
+pro_1, pro_2 = *pro_s
+con_1, con_2, con_3 = *con_s
 
 count = 0
 loop do
+  # TODO: Find new prices
+  # TODO: Find market clear
   count += 1
   gp_1, gp_2 = *goo_s.map(&:price)
   puts "Auctioneer:\nWelcome to round #{count} of negotiations.\n"\
-  "The prices have been set at:\n#{gp_1} for Good 1; and\n#{gp_1} for Good 2\n"\
+  "The prices have been set at:\n  #{gp_1} for Good 1; and"\
+  "\n  #{gp_1} for Good 2\n"\
   "Producers, would you please turn in your production plans?\n================"
   pro_plan = []
   con_plan = []
@@ -32,8 +37,9 @@ loop do
     pro_plan.push(pro.generate_plan(gp_1, gp_2))
   end
   sleep(1.5)
-  puts "Producer 1\nProduction Plan: #{pro_plan[0]}\n---"
-  puts "Producer 2\nProduction Plan: #{pro_plan[1]}\n================"
+  pro_1.announce(1)
+  pro_2.announce(2)
+  puts '================'
   sleep(1.5)
   puts "Auctioneer:\nConsumers, please submit your requests your requests"\
   ".\n================"
@@ -45,11 +51,9 @@ loop do
   end
   sleep(1.5)
   # puts "#{con_plan}"
-  puts "Consumer 1\nConsumption Plan = "\
-  "Good 1: #{con_plan[0][0]} | Good 2: #{con_plan[0][1]}\n---"
-  puts "Producer 2\nConsumption Plan = "\
-  "Good 1: #{con_plan[1][0]} | Good 2: #{con_plan[1][0]}\n---"
-  puts "Producer 3\nConsumption Plan = "\
-  "Good 1: #{con_plan[2][0]} | Good 2: #{con_plan[2][0]}\n================"
+  con_1.announce(1)
+  con_2.announce(2)
+  con_3.announce(3)
+  puts '================'
   break if 1 == 1
 end
