@@ -23,7 +23,6 @@ class Consumer < Agent
   def utility(p_1, p_2, y_1, y_2)
     # Input: Data for generate plan
     # Output: Utility
-    # TODO: Should find way to get max utility given range
     x_1, x_2 = *generate_plan(p_1, p_2, y_1, y_2)
     @eq_v[0] * u_b(x_1, x_2)**(@eq_v[3] / @eq_v[2])
   end

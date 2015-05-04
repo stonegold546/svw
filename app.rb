@@ -26,27 +26,30 @@ loop do
   puts "Auctioneer:\nWelcome to round #{count} of negotiations.\n"\
   "The prices have been set at:\n#{gp_1} for Good 1; and\n#{gp_1} for Good 2\n"\
   "Producers, would you please turn in your production plans?\n================"
-  sleep(1.5)
   pro_plan = []
   con_plan = []
   pro_s.each do |pro|
     pro_plan.push(pro.generate_plan(gp_1, gp_2))
   end
+  sleep(1.5)
   puts "Producer 1\nProduction Plan: #{pro_plan[0]}\n---"
   puts "Producer 2\nProduction Plan: #{pro_plan[1]}\n================"
   sleep(1.5)
   puts "Auctioneer:\nConsumers, please submit your requests your requests"\
   ".\n================"
-  sleep(1.5)
   # con_s.each do |con|
   #   puts con.utility
   # end
   con_s.each do |con|
-    con_plan.push(con.utility(gp_1, gp_2, *pro_plan))
+    con_plan.push(con.generate_plan(gp_1, gp_2, *pro_plan))
   end
+  sleep(1.5)
   # puts "#{con_plan}"
-  puts "Consumer 1\nCOnsumption Plan: #{con_plan[0]}\n---"
-  puts "Producer 2\nCOnsumption Plan: #{con_plan[1]}\n---"
-  puts "Producer 3\nCOnsumption Plan: #{con_plan[2]}\n================"
+  puts "Consumer 1\nConsumption Plan = "\
+  "Good 1: #{con_plan[0][0]} | Good 2: #{con_plan[0][1]}\n---"
+  puts "Producer 2\nConsumption Plan = "\
+  "Good 1: #{con_plan[1][0]} | Good 2: #{con_plan[1][0]}\n---"
+  puts "Producer 3\nConsumption Plan = "\
+  "Good 1: #{con_plan[2][0]} | Good 2: #{con_plan[2][0]}\n================"
   break if 1 == 1
 end
