@@ -2,19 +2,41 @@ require_relative './base/agent'
 
 # Consumer Agent
 class Consumer < Agent
-  attr_accessor :eq_a, :eq_b, :eq_c, :eq_d
+  attr_accessor :eq_v, :th, :endow
 
-  def initialize(eq_a, eq_b, eq_c, eq_d)
-    @eq_a = eq_a
-    @eq_b = eq_b
-    @eq_c = eq_c
-    @eq_d = eq_d
+  def initialize(eq_v, th, endow)
+    @eq_v = eq_v
+    @th = th
+    @endow = endow
   end
 
-  def utility(p_1, p_2)
-    @eq_a * (@eq_b * p_1**@eq_c + (1 - @eq_b) * p_2**@eq_c)**(@eq_d / @eq_c)
+  def u_a(a, e, b)
+    # Unit inside the bracket
+    a * e**b
   end
 
-  def plan
+  def u_b(x_1, x_2)
+    # Main bracket
+    u_a(@eq_v[1], x_1, @eq_v[2]) + u_a(1 - @eq_v[1], x_2, @eq_v[2])
+  end
+
+  def utility(p_1, p_2, y_1, y_2)
+    # Input: Data for generate plan
+    # Output: Utility
+    # TODO: Should find way to get max utility given range
+    x_1, x_2 = *generate_plan(p_1, p_2, y_1, y_2)
+    @eq_v[0] * u_b(x_1, x_2)**(@eq_v[3] / @eq_v[2])
+  end
+
+  def g_a(pr, en, y_1, y_2)
+    # Input: Price of good, endowment for price, theta & both productions plans
+    # Output: Prefered amount of a good
+    [pr * en, @th * pr * y_1, (1 - @th) * pr * y_2].inject(&:+)
+  end
+
+  def generate_plan(p_1, p_2, y_1, y_2)
+    # Input: two prices and both production plans
+    # Output: Array of prefered ammount for both goods
+    [g_a(p_1, @endow[0], y_1, y_2), g_a(p_2, @endow[1], y_1, y_2)]
   end
 end
