@@ -20,13 +20,16 @@ con_s = [Consumer.new([2, 0.5, 0.9, 0.5], 0.8, endow_1),
 pro_s = [Producer.new(2, 0.7, 0.3), Producer.new(3, 0.2, 0.6)]
 pro_1, pro_2 = *pro_s
 con_1, con_2, con_3 = *con_s
+auctioneer = Auctioneer.new
 
 count = 0
+eps = Float::EPSILON
 loop do
   # TODO: Find new prices
   # TODO: Find market clear
   count += 1
   gp_1, gp_2 = *goo_s.map(&:price)
+  sleep(0.1)
   puts "Auctioneer:\nWelcome to round #{count} of negotiations.\n"\
   "The prices have been set at:\n  #{gp_1} for Good 1; and"\
   "\n  #{gp_1} for Good 2\n"\
@@ -36,11 +39,11 @@ loop do
   pro_s.each do |pro|
     pro_plan.push(pro.generate_plan(gp_1, gp_2))
   end
-  sleep(1.5)
+  # sleep(1.5)
   pro_1.announce(1)
   pro_2.announce(2)
   puts '================'
-  sleep(1.5)
+  # sleep(1.5)
   puts "Auctioneer:\nConsumers, please submit your requests your requests"\
   ".\n================"
   # con_s.each do |con|
@@ -49,11 +52,20 @@ loop do
   con_s.each do |con|
     con_plan.push(con.generate_plan(gp_1, gp_2, *pro_plan))
   end
-  sleep(1.5)
+  # sleep(1.5)
   # puts "#{con_plan}"
   con_1.announce(1)
   con_2.announce(2)
   con_3.announce(3)
   puts '================'
-  break if 1 == 1
+  a = 0
+  b = 0
+  goo_s.each_with_index.map do |goo, idx|
+    goo.price = auctioneer.generate_plan(goo, pro_s, con_s, idx)
+    idx.even? ? a = auctioneer.terminator : b = auctioneer.terminator
+  end
+  puts "#{goo_s[0].price} #{goo_s[1].price}"
+  puts "#{a} #{b}"
+  puts "\n\n\n\n\n"
+  break if a < eps && b < eps
 end

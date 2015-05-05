@@ -2,12 +2,13 @@ require_relative './base/agent'
 
 # Consumer Agent
 class Consumer < Agent
-  attr_accessor :eq_v, :th, :endow
+  attr_accessor :eq_v, :th, :endow, :buy
 
   def initialize(eq_v, th, endow)
     @eq_v = eq_v
     @th = th
     @endow = endow
+    @buy
   end
 
   def u_a(a, e, b)
@@ -30,7 +31,8 @@ class Consumer < Agent
   def g_a(pr, en, y_1, y_2)
     # Input: Price of good, endowment for price, theta & both productions plans
     # Output: Prefered amount of a good
-    [pr * en, @th * pr * y_1, (1 - @th) * pr * y_2].inject(&:+)
+    # [pr * en, @th * pr * y_1, (1 - @th) * pr * y_2].inject(&:+)
+    [en, @th * y_1, (1 - @th) * y_2].inject(&:+)
   end
 
   def generate_plan(p_1, p_2, y_1, y_2)

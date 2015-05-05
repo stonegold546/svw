@@ -2,12 +2,13 @@ require_relative './base/agent'
 
 # Producer Agent
 class Producer < Agent
-  attr_accessor :eq_k, :eq_a, :eq_b
+  attr_accessor :eq_k, :eq_a, :eq_b, :build
 
   def initialize(eq_k, eq_a, eq_b)
     @eq_k = eq_k
     @eq_a = eq_a
     @eq_b = eq_b
+    @build
   end
 
   def cap
