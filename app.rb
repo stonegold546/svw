@@ -30,7 +30,7 @@ loop do
   # TODO: Find market clear
   count += 1
   gp_1, gp_2 = *goo_s.map(&:price)
-  sleep(1)
+  sleep(01)
   puts "Auctioneer:\nWelcome to round #{count} of negotiations.\n"\
   "The prices have been set at:\n  #{gp_1} for Good 1; and"\
   "\n  #{gp_2} for Good 2\n"\
@@ -61,10 +61,11 @@ loop do
   puts '================'
   goo_s.each_with_index.map do |goo, idx|
     goo.price = auctioneer.generate_plan(goo, pro_s, con_s, idx)
-    idx.even? ? a = auctioneer.terminator : b = auctioneer.terminator
+    idx.even? ? a = auctioneer.terminator.abs : b = auctioneer.terminator.abs
   end
   puts "#{goo_s[0].price} #{goo_s[1].price}"
   puts "#{a} #{b}"
+  puts "#{pro_plan[0] == a} #{pro_plan[1] == b}"
   puts "\n\n\n\n\n"
   break if a < eps && b < eps
 end

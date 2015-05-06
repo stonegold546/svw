@@ -31,7 +31,7 @@ class Consumer < Agent
   def g_a(pr, en, y_1, y_2)
     # Input: Price of good, endowment for price, theta & both productions plans
     # Output: Prefered amount of a good
-    [pr * en, @th * pr * y_1, (1 - @th) * pr * y_2].inject(&:+)
+    [pr * en, @th * pr * y_1, (1 - @th) * pr * y_2].inject(&:+) / pr
     # [en, @th * y_1, (1 - @th) * y_2].inject(&:+)
   end
 
@@ -39,6 +39,7 @@ class Consumer < Agent
     # Input: two prices and both production plans
     # Output: Array of prefered ammount for both goods
     @buy = [g_a(p_1, @endow[0], y_1, y_2), g_a(p_2, @endow[1], y_1, y_2)]
+    @endow = @buy
   end
 
   def announce(i)
