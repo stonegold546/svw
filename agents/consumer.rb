@@ -39,7 +39,7 @@ class Consumer < Agent
     # Input: two prices and both production plans
     # Output: Array of prefered ammount for both goods
     @buy = [g_a(p_1, @endow[0], y_1, y_2), g_a(p_2, @endow[1], y_1, y_2)]
-    @endow = @buy
+    # @endow = @buy
   end
 
   def announce(i)
