@@ -29,10 +29,10 @@ loop do
   # TODO: Find market clear
   count += 1
   gp_1, gp_2 = *goo_s.map(&:price)
-  sleep(0.1)
+  sleep(1)
   puts "Auctioneer:\nWelcome to round #{count} of negotiations.\n"\
   "The prices have been set at:\n  #{gp_1} for Good 1; and"\
-  "\n  #{gp_1} for Good 2\n"\
+  "\n  #{gp_2} for Good 2\n"\
   "Producers, would you please turn in your production plans?\n================"
   pro_plan = []
   con_plan = []
