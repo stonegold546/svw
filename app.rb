@@ -22,8 +22,9 @@ pro_1, pro_2 = *pro_s
 con_1, con_2, con_3 = *con_s
 auctioneer = Auctioneer.new
 
-count = 0
-eps = Float::EPSILON
+count, eps = *[0, Float::EPSILON]
+a = b = count
+
 loop do
   # TODO: Find new prices
   # TODO: Find market clear
@@ -58,8 +59,6 @@ loop do
   con_2.announce(2)
   con_3.announce(3)
   puts '================'
-  a = 0
-  b = 0
   goo_s.each_with_index.map do |goo, idx|
     goo.price = auctioneer.generate_plan(goo, pro_s, con_s, idx)
     idx.even? ? a = auctioneer.terminator : b = auctioneer.terminator
