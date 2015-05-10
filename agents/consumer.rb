@@ -8,7 +8,6 @@ class Consumer < Agent
     @eq_v = eq_v
     @th = th
     @endow = endow
-    @buy
   end
 
   def u_a(a, e, b)
@@ -31,7 +30,8 @@ class Consumer < Agent
   def g_a(pr, en, y_1, y_2)
     # Input: Price of good, endowment for price, theta & both productions plans
     # Output: Prefered amount of a good
-    [pr * en, @th * pr * y_1, (1 - @th) * pr * y_2].inject(&:+) / pr
+    [@th * pr * y_1, (1 - @th) * pr * y_2].inject(&:+) / pr + en
+    # [pr * en, @th * pr * y_1, (1 - @th) * pr * y_2].inject(&:+) / pr
     # [en, @th * y_1, (1 - @th) * y_2].inject(&:+)
   end
 

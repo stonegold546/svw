@@ -8,7 +8,6 @@ class Producer < Agent
     @eq_k = eq_k
     @eq_a = eq_a
     @eq_b = eq_b
-    @build
   end
 
   def cap

@@ -3,15 +3,6 @@ require_relative './agents/consumer'
 require_relative './agents/producer'
 require_relative './lib/good'
 
-# goo_1, goo_2 = *[Good.new(1, 0.1), Good.new(1, 0.1)]
-# goo_2 = Good.new(1, 0.1)
-# con_1, con_2, con_3 = *[Consumer.new(2, 0.5, 0.9, 0.5),
-#                         Consumer.new(3, 0.6, 0.95, 1.6),
-#                         Consumer.new(5, 0.7, 0.8, 0.7)]
-# con_2 = Consumer.new(3, 0.6, 0.95, 1.6)
-# con_3 = Consumer.new(5, 0.7, 0.8, 0.7)
-# pro_1, pro_2 = *[Producer.new(2, 0.7, 0.3), Producer.new(3, 0.2, 0.6)]
-# pro_2 = Producer.new(3, 0.2, 0.6)
 goo_s = [Good.new(1, 0.1), Good.new(1, 0.1)]
 endow_1, endow_2, endow_3 = *[[3, 5], [4, 2], [2, 6]]
 con_s = [Consumer.new([2, 0.5, 0.9, 0.5], 0.8, endow_1),
@@ -30,7 +21,7 @@ loop do
   # TODO: Find market clear
   count += 1
   gp_1, gp_2 = *goo_s.map(&:price)
-  sleep(01)
+  # sleep(01)
   puts "Auctioneer:\nWelcome to round #{count} of negotiations.\n"\
   "The prices have been set at:\n  #{gp_1} for Good 1; and"\
   "\n  #{gp_2} for Good 2\n"\
@@ -65,7 +56,7 @@ loop do
   end
   puts "#{goo_s[0].price} #{goo_s[1].price}"
   puts "#{a} #{b}"
-  puts "#{pro_plan[0] == a} #{pro_plan[1] == b}"
+  # puts "#{pro_plan[0] == a} #{pro_plan[1] == b}"
   puts "\n\n\n\n\n"
   break if a < eps && b < eps
 end
