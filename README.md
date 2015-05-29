@@ -1,1 +1,1 @@
-# Walrasian tatonnement algorithm in Ruby
+##### Walrasian tatonnement algorithm in Ruby
