@@ -21,7 +21,7 @@ loop do
   # TODO: Find market clear
   count += 1
   gp_1, gp_2 = *goo_s.map(&:price)
-  # sleep(01)
+  sleep(04) if count % 10_000 == 0
   puts "Auctioneer:\nWelcome to round #{count} of negotiations.\n"\
   "The prices have been set at:\n  #{gp_1} for Good 1; and"\
   "\n  #{gp_2} for Good 2\n"\
