@@ -5,23 +5,23 @@ require_relative './lib/good'
 
 goo_s = [Good.new(1, 0.1), Good.new(1, 0.1)]
 endow_1, endow_2, endow_3 = *[[3, 5], [4, 2], [2, 6]]
-con_s = [Consumer.new([2, 0.5, 0.9, 0.5], 0.8, endow_1),
-         Consumer.new([3, 0.6, 0.95, 1.6], 0.3, endow_2),
-         Consumer.new([5, 0.7, 0.8, 0.7], 0.6, endow_3)]
+share_1, share_2, share_3 = *[[0.4, 0.3], [0.3, 0.5], [0.3, 0.2]]
+con_s = [Consumer.new([2, 0.5, 0.9, 0.5], share_1, endow_1),
+         Consumer.new([3, 0.6, 0.95, 1.6], share_2, endow_2),
+         Consumer.new([5, 0.7, 0.8, 0.7], share_3, endow_3)]
 pro_s = [Producer.new(2, 0.7, 0.3), Producer.new(3, 0.2, 0.6)]
 pro_1, pro_2 = *pro_s
 con_1, con_2, con_3 = *con_s
 auctioneer = Auctioneer.new
 
-count, eps = *[0, Float::EPSILON]
-a = b = count
+a, b, count, eps = *[0, 0, 0, Float::EPSILON]
 
 loop do
   # TODO: Find new prices
   # TODO: Find market clear
   count += 1
   gp_1, gp_2 = *goo_s.map(&:price)
-  sleep(04) if count % 10_000 == 0
+  # sleep(04) if count % 10_000 == 0
   puts "Auctioneer:\nWelcome to round #{count} of negotiations.\n"\
   "The prices have been set at:\n  #{gp_1} for Good 1; and"\
   "\n  #{gp_2} for Good 2\n"\
@@ -57,6 +57,6 @@ loop do
   puts "#{goo_s[0].price} #{goo_s[1].price}"
   puts "#{a} #{b}"
   # puts "#{pro_plan[0] == a} #{pro_plan[1] == b}"
-  puts "\n\n\n\n\n"
+  puts "\n\n"
   break if a < eps && b < eps
 end
