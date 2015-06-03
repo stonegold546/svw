@@ -9,20 +9,20 @@ class Auctioneer < Agent
       &:endow).map(&:"#{a}").inject(&:+)
   end
 
-  # def rem_b(producers)
-  #   producers.map(&:build).inject(&:+)
-  # end
+  def rem_b(producers, a)
+    producers.map(&:build).map(&:"#{a}").inject(&:+)
+  end
 
   def outer_b(consumers, idx, producers)
     if idx == 0
-      inner_b(consumers, 'first')
+      inner_b(consumers, 'first') - rem_b(producers, 'first')
     elsif idx == 1
-      inner_b(consumers, 'last')
-    end - producers.map(&:build).inject(&:+)
+      inner_b(consumers, 'last') - rem_b(producers, 'last')
+    end
   end
 
   def b_brack(producers, consumers, idx)
-    @terminator = outer_b(consumers, idx, producers) # - rem_b(producers)
+    @terminator = outer_b(consumers, idx, producers)
   end
 
   def generate_plan(good, producers, consumers, idx)

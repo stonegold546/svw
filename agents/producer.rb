@@ -15,12 +15,14 @@ class Producer < Agent
   end
 
   def generate_plan(p_1, p_2)
-    @build = [@eq_k * p_1**@eq_a * p_2**@eq_b, cap].min
+    @build = [@eq_a / (@eq_a + @eq_b) * cap / p_1,
+              @eq_b / (@eq_a + @eq_b) * cap / p_2]
   end
 
   def announce(i)
     header = ''
     header = "---\n" unless i == 1
-    puts "#{header}Producer #{i}\nProduction Plan: #{@build}\n"
+    puts "#{header}Producer #{i}\nProduction Plan = "\
+    "Good 1: #{@build[0]} | Good 2: #{@build[1]}\n"
   end
 end

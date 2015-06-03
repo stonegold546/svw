@@ -6,6 +6,10 @@ require_relative './lib/good'
 goo_s = [Good.new(1, 0.1), Good.new(1, 0.1)]
 endow_1, endow_2, endow_3 = *[[3, 5], [4, 2], [2, 6]]
 share_1, share_2, share_3 = *[[0.4, 0.3], [0.3, 0.5], [0.3, 0.2]]
+# share_1, share_2, share_3 = *[[0.4, 0.3], [0.3, 0.5], [0.2, 0.2]]
+# => Price around e-14
+# share_1, share_2, share_3 = *[[0.4, 0.3], [0.3, 0.5], [0.3, 0.2]]
+# => What are conditions for equilibrium?
 con_s = [Consumer.new([2, 0.5, 0.9, 0.5], share_1, endow_1),
          Consumer.new([3, 0.6, 0.95, 1.6], share_2, endow_2),
          Consumer.new([5, 0.7, 0.8, 0.7], share_3, endow_3)]
@@ -44,7 +48,7 @@ loop do
   con_s.each do |con|
     con_plan.push(con.generate_plan(gp_1, gp_2, *pro_plan))
   end
-  # sleep(1.5)
+  # sleep(0.2)
   # puts "#{con_plan}"
   con_1.announce(1)
   con_2.announce(2)
@@ -57,6 +61,7 @@ loop do
   puts "#{goo_s[0].price} #{goo_s[1].price}"
   puts "#{a} #{b}"
   # puts "#{pro_plan[0] == a} #{pro_plan[1] == b}"
+  # sleep(01)
   puts "\n\n"
   break if a < eps && b < eps
 end
