@@ -2,15 +2,15 @@ require_relative './base/agent'
 
 # Actioneer Agent
 class Auctioneer < Agent
-  attr_accessor :terminator
+  attr_accessor :terminator, :demand, :supply
 
   def inner_b(consumers, a)
-    consumers.map(&:buy).map(&:"#{a}").inject(&:+) - consumers.map(
+    @demand = consumers.map(&:buy).map(&:"#{a}").inject(&:+) - consumers.map(
       &:endow).map(&:"#{a}").inject(&:+)
   end
 
   def rem_b(producers, a)
-    producers.map(&:build).map(&:"#{a}").inject(&:+)
+    @supply = producers.map(&:build).map(&:"#{a}").inject(&:+)
   end
 
   def outer_b(consumers, idx, producers)

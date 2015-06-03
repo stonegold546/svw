@@ -20,6 +20,11 @@ auctioneer = Auctioneer.new
 
 a, b, count, eps = *[0, 0, 0, Float::EPSILON]
 
+f_1 = File.new('graph_1.csv', 'w+')
+f_1.write("round, demand, supply\n")
+f_2 = File.new('graph_2.csv', 'w+')
+f_2.write("round, demand, supply\n")
+
 loop do
   # TODO: Find new prices
   # TODO: Find market clear
@@ -56,7 +61,14 @@ loop do
   puts '================'
   goo_s.each_with_index.map do |goo, idx|
     goo.price = auctioneer.generate_plan(goo, pro_s, con_s, idx)
-    idx.even? ? a = auctioneer.terminator.abs : b = auctioneer.terminator.abs
+    t = "#{count}, #{auctioneer.demand}, #{auctioneer.supply}\n"
+    if idx.even?
+      a = auctioneer.terminator.abs
+      f_1.write(t)
+    else
+      b = auctioneer.terminator.abs
+      f_2.write(t)
+    end
   end
   puts "#{goo_s[0].price} #{goo_s[1].price}"
   puts "#{a} #{b}"
