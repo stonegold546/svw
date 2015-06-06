@@ -21,9 +21,9 @@ auctioneer = Auctioneer.new
 a, b, count, eps = *[0, 0, 0, Float::EPSILON]
 
 f_1 = File.new('graph_1.csv', 'w+')
-f_1.write("round, demand, supply\n")
+f_1.write("round, demand, supply, price\n")
 f_2 = File.new('graph_2.csv', 'w+')
-f_2.write("round, demand, supply\n")
+f_2.write("round, demand, supply, price\n")
 
 loop do
   # TODO: Find new prices
@@ -61,7 +61,7 @@ loop do
   puts '================'
   goo_s.each_with_index.map do |goo, idx|
     goo.price = auctioneer.generate_plan(goo, pro_s, con_s, idx)
-    t = "#{count}, #{auctioneer.demand}, #{auctioneer.supply}\n"
+    t = "#{count}, #{auctioneer.demand}, #{auctioneer.supply}, #{goo.price}\n"
     if idx.even?
       a = auctioneer.terminator.abs
       f_1.write(t)
