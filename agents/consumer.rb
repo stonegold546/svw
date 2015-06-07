@@ -10,22 +10,22 @@ class Consumer < Agent
     @endow = endow
   end
 
-  def utility_a(a, e, b)
-    # Unit inside the bracket
-    a * e**b
-  end
-
-  def utility_b(x_1, x_2)
-    # Main bracket
-    utility_a(@eq_v[1], x_1, @eq_v[2]) + utility_a(1 - @eq_v[1], x_2, @eq_v[2])
-  end
-
-  def utility(p_1, p_2, y_1, y_2)
-    # Input: Data for generate plan
-    # Output: Utility
-    x_1, x_2 = *generate_plan(p_1, p_2, y_1, y_2)
-    @eq_v[0] * utility_b(x_1, x_2)**(@eq_v[3] / @eq_v[2])
-  end
+  # def utility_a(a, e, b)
+  #   # Unit inside the bracket
+  #   a * e**b
+  # end
+  #
+  # def utility_b(x_1, x_2)
+  #   # Main bracket
+  #   utility_a(@eq_v[1], x_1, @eq_v[2]) + utility_a(1 - @eq_v[1], x_2, @eq_v[2])
+  # end
+  #
+  # def utility(p_1, p_2, y_1, y_2)
+  #   # Input: Data for generate plan
+  #   # Output: Utility
+  #   x_1, x_2 = *generate_plan(p_1, p_2, y_1, y_2)
+  #   @eq_v[0] * utility_b(x_1, x_2)**(@eq_v[3] / @eq_v[2])
+  # end
 
   def g_a(pr, en, y_1, y_2)
     # Input: Price of good, endowment for price, theta & both productions plans
@@ -40,12 +40,21 @@ class Consumer < Agent
      g_a(p_2, @endow[1], y_1[1], y_2[1])].inject(&:+)
   end
 
+  def demand_help(p_1, p_2, y_1, y_2)
+    cap(p_1, p_2, y_1, y_2) / (
+    @eq_v[1]**@eq_v[2] * p_1**(1 - @eq_v[2]) +
+    (1 - @eq_v[1])**@eq_v[2] * p_2**(1 - @eq_v[2])
+    )
+  end
+
   def generate_plan(p_1, p_2, y_1, y_2)
     # Input: two prices and both production plans
     # Output: Array of prefered ammount for both goods
     @buy = [
-      @eq_v[2] / (2 * @eq_v[2]) * cap(p_1, p_2, y_1, y_2) / p_1,
-      @eq_v[2] / (2 * @eq_v[2]) * cap(p_1, p_2, y_1, y_2) / p_2
+      # @eq_v[2] / (2 * @eq_v[2]) * cap(p_1, p_2, y_1, y_2) / p_1,
+      # @eq_v[2] / (2 * @eq_v[2]) * cap(p_1, p_2, y_1, y_2) / p_2
+      (@eq_v[1] / p_1)**@eq_v[2] * demand_help(p_1, p_2, y_1, y_2),
+      ((1 - @eq_v[1]) / p_2)**@eq_v[2] * demand_help(p_1, p_2, y_1, y_2)
     ]
   end
 
