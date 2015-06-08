@@ -3,7 +3,7 @@ require_relative './agents/consumer'
 require_relative './agents/producer'
 require_relative './lib/good'
 
-goo_s = [Good.new(1, 0.1), Good.new(1, 0.1)]
+goo_s = [Good.new(1, 0.02), Good.new(1, 0.02)]
 endow_1, endow_2, endow_3 = *[[3, 5], [4, 2], [2, 6]]
 share_1, share_2, share_3 = *[[0.4, 0.3], [0.3, 0.5], [0.3, 0.2]]
 # share_1, share_2, share_3 = *[[0.4, 0.3], [0.3, 0.5], [0.2, 0.2]]
@@ -18,7 +18,7 @@ pro_1, pro_2 = *pro_s
 con_1, con_2, con_3 = *con_s
 auctioneer = Auctioneer.new
 
-a, b, count, eps = *[0, 0, 0, Float::EPSILON]
+a, b, count, eps = *[0, 0, 0, 2**-23] # Using single precision machine epsilon
 
 f_1 = File.new('graph_1.csv', 'w+')
 f_1.write("round, demand, supply, price, demand-supply\n")
@@ -77,5 +77,5 @@ loop do
   # puts "#{pro_plan[0] == a} #{pro_plan[1] == b}"
   # sleep(01)
   puts "\n\n"
-  break if (a < eps && b < eps) || count == 7_000
+  break if a < eps && b < eps
 end

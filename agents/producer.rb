@@ -2,6 +2,7 @@ require_relative './base/agent'
 
 # Producer Agent
 class Producer < Agent
+  # TODO: Document the class
   attr_accessor :eq_k, :eq_a, :eq_b, :build
 
   def initialize(eq_k, eq_a, eq_b)

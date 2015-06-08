@@ -1,5 +1,4 @@
 require_relative './base/agent'
-require 'rupy'
 
 # Consumer Agent
 class Consumer < Agent
@@ -10,23 +9,6 @@ class Consumer < Agent
     @th = th # this is share
     @endow = endow
   end
-
-  # def utility_a(a, e, b)
-  #   # Unit inside the bracket
-  #   a * e**b
-  # end
-  #
-  # def utility_b(x_1, x_2)
-  #   # Main bracket
-  #   utility_a(@eq_v[1], x_1, @eq_v[2]) + utility_a(1 - @eq_v[1], x_2, @eq_v[2])
-  # end
-  #
-  # def utility(p_1, p_2, y_1, y_2)
-  #   # Input: Data for generate plan
-  #   # Output: Utility
-  #   x_1, x_2 = *generate_plan(p_1, p_2, y_1, y_2)
-  #   @eq_v[0] * utility_b(x_1, x_2)**(@eq_v[3] / @eq_v[2])
-  # end
 
   def g_a(pr, en, y_1, y_2)
     # Input: Price of good, endowment for price, theta & both productions plans
@@ -41,36 +23,33 @@ class Consumer < Agent
      g_a(p_2, @endow[1], y_1[1], y_2[1])].inject(&:+)
   end
 
-  def demand_help(p_1, p_2, y_1, y_2)
-    cap(p_1, p_2, y_1, y_2) / (
-    @eq_v[1]**@eq_v[2] * p_1**(1 - @eq_v[2]) +
-    (1 - @eq_v[1])**@eq_v[2] * p_2**(1 - @eq_v[2])
-    )
-  end
-
   def generate_plan(p_1, p_2, y_1, y_2)
     # Input: two prices and both production plans
     # Output: Array of prefered ammount for both goods
     @buy = [
       # Assuming that MAJOR!
-      (@eq_v[1] / p_1)**@eq_v[2] * demand_help(p_1, p_2, y_1, y_2),
-      ((1 - @eq_v[1]) / p_2)**@eq_v[2] * demand_help(p_1, p_2, y_1, y_2)
-      # Assuming Cobb-Douglas
-      # @eq_v[2] / (2 * @eq_v[2]) * cap(p_1, p_2, y_1, y_2) / p_1,
-      # @eq_v[2] / (2 * @eq_v[2]) * cap(p_1, p_2, y_1, y_2) / p_2
-      # Assuming Cobb-Douglas is evolved CES
-      # @eq_v[1] / 1 * cap(p_1, p_2, y_1, y_2) / p_1,
-      # (1 - @eq_v[1]) / 1 * cap(p_1, p_2, y_1, y_2) / p_2
+      d_b(p_1, @eq_v[1]) * plan_help(p_1, p_2, y_1, y_2),
+      d_b(p_2, 1 - @eq_v[1]) * plan_help(p_1, p_2, y_1, y_2)
     ]
   end
 
-  # Rupy.start(:python => "python2.7")
-  #
-  # # Python
-  # def f(x):
-  #   return @eq_v[0] * ((@eq_v[1] * x[0])**@eq_v[2] + ((1 - @eq_v[1]) * x[1])**@eq_v[2])
-  #
-  # Rupy.stop
+  def d_b(p, a_b)
+    rho = 1 / (1 - @eq_v[2])
+    (p / a_b)**-rho
+  end
+
+  def plan_help(p_1, p_2, y_1, y_2)
+    cap(p_1, p_2, y_1, y_2) / demand_help(p_1, p_2)
+  end
+
+  def demand_help(p_1, p_2)
+    d_a(p_1, @eq_v[1]) + d_a(p_2, 1 - @eq_v[1])
+  end
+
+  def d_a(p, a_b)
+    rho = 1 / (1 - @eq_v[2])
+    a_b**rho * p**(1 - rho)
+  end
 
   def announce(i)
     header = ''
