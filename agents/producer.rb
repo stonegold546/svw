@@ -14,13 +14,24 @@ class Producer < Agent
     50
   end
 
+  def find_x2(p_1, p_2)
+    b = cap * (p_2 / p_1 * @eq_a / @eq_b)**-@eq_a / @eq_k
+    Math.exp((Math.log(b)) / (@eq_a + @eq_b))
+  end
+
   def generate_plan(p_1, p_2)
+    # Latest
+    x_2 = find_x2(p_1, p_2)
+    @build = [
+      p_2 / p_1 * @eq_a / @eq_b * x_2,
+      x_2
+    ]
     # Assuming Consumer Cobb-Douglas
     # @build = [@eq_a / (@eq_a + @eq_b) * cap / p_1,
     #           @eq_b / (@eq_a + @eq_b) * cap / p_2]
     # Assuming Cobb-Douglas but make-belief equation
-    @build = [@eq_a / (@eq_a + @eq_b) * cap * p_1 / (p_1 + p_2),
-              @eq_b / (@eq_a + @eq_b) * cap * p_2 / (p_1 + p_2)]
+    # @build = [@eq_a / (@eq_a + @eq_b) * cap * p_1 / (p_1 + p_2),
+    #           @eq_b / (@eq_a + @eq_b) * cap * p_2 / (p_1 + p_2)]
     # Assuming Leo
     # @build = [@eq_a / 1 * cap / p_1, # / (p_1 + p_2),
     #           @eq_b / 1 * cap / p_2] # / (p_1 + p_2)]
