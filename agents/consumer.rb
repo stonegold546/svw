@@ -1,5 +1,5 @@
 require_relative './base/agent'
-requrie 'rinruby'
+require 'rinruby'
 
 # Consumer Agent
 class Consumer < Agent
@@ -9,6 +9,32 @@ class Consumer < Agent
     @eq_v = eq_v
     @th = th # this is share
     @endow = endow
+  end
+
+  def r_work(y_1, y_2)
+    R.eq_v = *@eq_v
+    R.en = *@endow
+    R.th = *@th
+    R.y_11 = y_1[0]
+    R.y_12 = y_1[1]
+    R.y_21 = y_2[0]
+    R.y_22 = y_2[1]
+    R.eval <<EOF
+      library(optimx)
+      u_f <- function(x, y){
+        result <- -(eq_v[1] * (eq_v[2] * x ** eq_v[3] + (1 - eq_v[2]) * y **
+                  eq_v[3]) ** (eq_v[4] / eq_v[3]))
+        return(result)
+      }
+      budg <- function(en, y_1, y_2){
+        en + th[1] * y_1 + th[2] * y_2
+      }
+      opt <- optimx(c(0,0), function(x) u_f(x[1], x[2]), lower=0,
+      upper=c(budg(en[1], y_11, y_21), budg(en[2], y_12, y_22)))
+      a <- opt$p1
+      b <- opt$p2
+EOF
+    @buy = [R.a, R.b]
   end
 
   def g_a(pr, en, y_1, y_2)
@@ -27,7 +53,7 @@ class Consumer < Agent
   def generate_plan(p_1, p_2, y_1, y_2)
     # Input: two prices and both production plans
     # Output: Array of prefered ammount for both goods
-    @buy = [
+    [
       # Assuming that MAJOR!
       d_b(p_1, @eq_v[1]) * plan_help(p_1, p_2, y_1, y_2),
       d_b(p_2, 1 - @eq_v[1]) * plan_help(p_1, p_2, y_1, y_2)
