@@ -1,4 +1,5 @@
 require_relative './base/agent'
+requrie 'rinruby'
 
 # Consumer Agent
 class Consumer < Agent

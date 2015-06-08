@@ -1,8 +1,10 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    rinruby (2.0.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  rinruby
