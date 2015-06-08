@@ -1,4 +1,5 @@
 require_relative './base/agent'
+require 'rupy'
 
 # Consumer Agent
 class Consumer < Agent
@@ -51,12 +52,25 @@ class Consumer < Agent
     # Input: two prices and both production plans
     # Output: Array of prefered ammount for both goods
     @buy = [
-      # @eq_v[2] / (2 * @eq_v[2]) * cap(p_1, p_2, y_1, y_2) / p_1,
-      # @eq_v[2] / (2 * @eq_v[2]) * cap(p_1, p_2, y_1, y_2) / p_2
+      # Assuming that MAJOR!
       (@eq_v[1] / p_1)**@eq_v[2] * demand_help(p_1, p_2, y_1, y_2),
       ((1 - @eq_v[1]) / p_2)**@eq_v[2] * demand_help(p_1, p_2, y_1, y_2)
+      # Assuming Cobb-Douglas
+      # @eq_v[2] / (2 * @eq_v[2]) * cap(p_1, p_2, y_1, y_2) / p_1,
+      # @eq_v[2] / (2 * @eq_v[2]) * cap(p_1, p_2, y_1, y_2) / p_2
+      # Assuming Cobb-Douglas is evolved CES
+      # @eq_v[1] / 1 * cap(p_1, p_2, y_1, y_2) / p_1,
+      # (1 - @eq_v[1]) / 1 * cap(p_1, p_2, y_1, y_2) / p_2
     ]
   end
+
+  # Rupy.start(:python => "python2.7")
+  #
+  # # Python
+  # def f(x):
+  #   return @eq_v[0] * ((@eq_v[1] * x[0])**@eq_v[2] + ((1 - @eq_v[1]) * x[1])**@eq_v[2])
+  #
+  # Rupy.stop
 
   def announce(i)
     header = ''

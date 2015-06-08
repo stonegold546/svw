@@ -15,8 +15,15 @@ class Producer < Agent
   end
 
   def generate_plan(p_1, p_2)
+    # Assuming Consumer Cobb-Douglas
+    # @build = [@eq_a / (@eq_a + @eq_b) * cap / p_1,
+    #           @eq_b / (@eq_a + @eq_b) * cap / p_2]
+    # Assuming Cobb-Douglas but make-belief equation
     @build = [@eq_a / (@eq_a + @eq_b) * cap * p_1 / (p_1 + p_2),
               @eq_b / (@eq_a + @eq_b) * cap * p_2 / (p_1 + p_2)]
+    # Assuming Leo
+    # @build = [@eq_a / 1 * cap / p_1, # / (p_1 + p_2),
+    #           @eq_b / 1 * cap / p_2] # / (p_1 + p_2)]
   end
 
   def announce(i)

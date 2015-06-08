@@ -75,5 +75,5 @@ loop do
   # puts "#{pro_plan[0] == a} #{pro_plan[1] == b}"
   # sleep(01)
   puts "\n\n"
-  break if a < eps && b < eps
+  break if (a < eps && b < eps) || count == 7_000
 end
