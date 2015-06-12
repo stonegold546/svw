@@ -1,5 +1,5 @@
 require_relative './base/agent'
-require 'rinruby'
+# require 'rinruby'
 
 # Consumer Agent
 class Consumer < Agent
@@ -34,7 +34,7 @@ class Consumer < Agent
       a <- opt$p1
       b <- opt$p2
 EOF
-    @buy = [R.a, R.b]
+    [R.a, R.b]
   end
 
   def g_a(pr, en, y_1, y_2)
@@ -53,7 +53,7 @@ EOF
   def generate_plan(p_1, p_2, y_1, y_2)
     # Input: two prices and both production plans
     # Output: Array of prefered ammount for both goods
-    [
+    @buy = [
       # Assuming that MAJOR!
       d_b(p_1, @eq_v[1]) * plan_help(p_1, p_2, y_1, y_2),
       d_b(p_2, 1 - @eq_v[1]) * plan_help(p_1, p_2, y_1, y_2)

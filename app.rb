@@ -18,8 +18,8 @@ pro_1, pro_2 = *pro_s
 con_1, con_2, con_3 = *con_s
 auctioneer = Auctioneer.new
 
-# a, b, count, eps = *[0, 0, 0, 2**-23] # Using single precision machine epsilon
-a, b, count, eps = *[0, 0, 0, 2**-52] # Using double precision machine epsilon
+a, b, count, eps = *[0, 0, 0, 2**-23] # Using single precision machine epsilon
+# a, b, count, eps = *[0, 0, 0, 2**-52] # Using double precision machine epsilon
 
 f_1 = File.new('graph_1.csv', 'w+')
 f_1.write("round, demand, supply, price, demand-supply\n")
@@ -53,7 +53,7 @@ loop do
   #   puts con.utility
   # end
   con_s.each do |con|
-    con_plan.push(con.r_work(*pro_plan))
+    con_plan.push(con.generate_plan(gp_1, gp_2, *pro_plan))
   end
   # sleep(0.2)
   # puts "#{con_plan}"
