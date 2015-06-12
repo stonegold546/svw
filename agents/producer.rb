@@ -16,7 +16,7 @@ class Producer < Agent
   end
 
   def find_x2(p_1, p_2)
-    b = cap * (p_2 / p_1 * @eq_a / @eq_b)**-@eq_a / @eq_k
+    b = cap * (p_1 / p_2 * @eq_a / @eq_b)**-@eq_a / @eq_k
     Math.exp((Math.log(b)) / (@eq_a + @eq_b))
   end
 
@@ -24,7 +24,7 @@ class Producer < Agent
     # Latest
     x_2 = find_x2(p_1, p_2)
     @build = [
-      p_2 / p_1 * @eq_a / @eq_b * x_2,
+      p_1 / p_2 * @eq_a / @eq_b * x_2,
       x_2
     ]
     # Assuming Consumer Cobb-Douglas

@@ -21,11 +21,11 @@ auctioneer = Auctioneer.new
 a, b, count, eps = *[0, 0, 0, 2**-23] # Using single precision machine epsilon
 # a, b, count, eps = *[0, 0, 0, 2**-52] # Using double precision machine epsilon
 
-# f_1 = File.new('graph_1.csv', 'w+')
-f_1 = File.new('graph_b_1.csv', 'w+')
+f_1 = File.new('graph_1.csv', 'w+')
+# f_1 = File.new('graph_b_1.csv', 'w+')
 f_1.write("round, demand, supply, price, demand-supply\n")
-# f_2 = File.new('graph_2.csv', 'w+')
-f_2 = File.new('graph_b_2.csv', 'w+')
+f_2 = File.new('graph_2.csv', 'w+')
+# f_2 = File.new('graph_b_2.csv', 'w+')
 f_2.write("round, demand, supply, price, demand-supply\n")
 
 loop do
