@@ -1,3 +1,4 @@
 trash
 *.R*
 *.r
+.Rproj.user
