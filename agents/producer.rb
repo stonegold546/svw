@@ -2,7 +2,11 @@ require_relative './base/agent'
 
 # Producer Agent
 class Producer < Agent
-  # TODO: Document the class
+  # Producer's utility function is of Cobb-Douglas form
+  # => Y(x_1, x_2) = @eq_k(x_1**@eq_a*x_2**@eq_b)
+  # => cap: Production constraint of producer
+  # => @build: an array containing the producer's production plan for each good
+
   attr_accessor :eq_k, :eq_a, :eq_b, :build
 
   def initialize(eq_k, eq_a, eq_b)
@@ -21,7 +25,8 @@ class Producer < Agent
   end
 
   def generate_plan(p_1, p_2)
-    # Latest
+    # Input: the prices of two goods
+    # Output: an array containing the production plan for each good
     x_2 = find_x2(p_1, p_2)
     @build = [
       p_1 / p_2 * @eq_a / @eq_b * x_2,

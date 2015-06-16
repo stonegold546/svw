@@ -34,7 +34,7 @@ loop do
   # TODO: Pass productions plans to R code
   count += 1
   gp_1, gp_2 = *goo_s.map(&:price)
-  # sleep(04) if count % 10_000 == 0
+  sleep(04) if count % 1_000 == 0
   puts "Auctioneer:\nWelcome to round #{count} of negotiations.\n"\
   "The prices have been set at:\n  #{gp_1} for Good 1; and"\
   "\n  #{gp_2} for Good 2\n"\
@@ -44,21 +44,14 @@ loop do
   pro_s.each do |pro|
     pro_plan.push(pro.generate_plan(gp_1, gp_2))
   end
-  # sleep(1.5)
   pro_1.announce(1)
   pro_2.announce(2)
   puts '================'
-  # sleep(1.5)
   puts "Auctioneer:\nConsumers, please submit your requests your requests"\
   ".\n================"
-  # con_s.each do |con|
-  #   puts con.utility
-  # end
   con_s.each do |con|
     con_plan.push(con.generate_plan(gp_1, gp_2, *pro_plan))
   end
-  # sleep(0.2)
-  # puts "#{con_plan}"
   con_1.announce(1)
   con_2.announce(2)
   con_3.announce(3)
@@ -78,8 +71,6 @@ loop do
   end
   puts "#{goo_s[0].price} #{goo_s[1].price}"
   puts "#{a} #{b}"
-  # puts "#{pro_plan[0] == a} #{pro_plan[1] == b}"
-  # sleep(01)
   puts "\n\n"
   break if a < eps && b < eps
 end

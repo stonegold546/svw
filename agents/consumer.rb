@@ -3,6 +3,13 @@ require_relative './base/agent'
 
 # Consumer Agent
 class Consumer < Agent
+  # Consumer's utility function is of CES Utility form
+  # => U(x_1) = @eq_v[0](@eq_v[1]*x_11**@eq_v[2] +
+  # =>          (1 - @eq_v[1])*x_12**@eq_v[2])**(@eq_v[3]/@eq_v[2])
+  # => @th: an array containing consumer's share of both producers
+  # => @endow: an array containing consumer's endowment of both goods
+  # => @buy: an array containing the consumer's consumption plan for each good
+
   attr_accessor :eq_v, :th, :endow, :buy
 
   def initialize(eq_v, th, endow)
@@ -38,21 +45,23 @@ EOF
   end
 
   def g_a(pr, en, y_1, y_2)
-    # Input: Price of good, endowment for price, theta & both productions plans
-    # Output: Prefered amount of a good
+    # Input: Price of good, endowment, both production plans for said good
+    # Output: Budget cap of consumer for given good
     # [@th[0] * pr * y_1, @th[1] * pr * y_2].inject(&:+) / pr + en
     [pr * en, @th[0] * pr * y_1, @th[1] * pr * y_2].inject(&:+)
     # [en, @th[0] * y_1, @th[1] * y_2].inject(&:+)
   end
 
   def cap(p_1, p_2, y_1, y_2)
+    # Input: Prices of both goods & production plans for both goods
+    # Output: Budget cap of consumer for both goods
     [g_a(p_1, @endow[0], y_1[0], y_2[0]),
      g_a(p_2, @endow[1], y_1[1], y_2[1])].inject(&:+)
   end
 
   def generate_plan(p_1, p_2, y_1, y_2)
-    # Input: two prices and both production plans
-    # Output: Array of prefered ammount for both goods
+    # Input: Prices of both goods & production plans for both goods
+    # Output: an array containing the consumption plan for each good
     @buy = [
       # Assuming that MAJOR!
       d_b(p_1, @eq_v[1]) * plan_help(p_1, p_2, y_1, y_2),
